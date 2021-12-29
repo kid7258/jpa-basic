@@ -16,11 +16,12 @@ public class JpaMain {
 
         try {
             Member member = new Member();
-            member.setId(1L);
             member.setUsername("A");
-            member.setRoleType(RoleType.ADMIN);
 
-            em.persist(member);
+            System.out.println("======================");
+            em.persist(member); // IDENTITY일 경우, 해당 시점에 ID 값을 모르기 때문에 바로 쿼리가 나감
+            System.out.println("======================");
+
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
