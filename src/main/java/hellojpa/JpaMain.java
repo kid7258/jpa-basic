@@ -15,11 +15,19 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Member member = new Member();
-            member.setUsername("A");
+            Member member1 = new Member();
+            member1.setUsername("A");
+
+            Member member2 = new Member();
+            member2.setUsername("B");
+
+            Member member3 = new Member();
+            member3.setUsername("C");
 
             System.out.println("======================");
-            em.persist(member); // IDENTITY일 경우, 해당 시점에 ID 값을 모르기 때문에 바로 쿼리가 나감
+            em.persist(member1); // SEQUENCE 전략, 최초 호출 전 -49, 50 | 호출 시 1, 51
+            em.persist(member2);
+            em.persist(member3);
             System.out.println("======================");
 
             tx.commit();
