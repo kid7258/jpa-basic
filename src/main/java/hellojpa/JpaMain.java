@@ -15,20 +15,23 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Member member1 = new Member();
-            member1.setUsername("A");
+            Team team = new Team();
+            team.setName("TeamA");
+            em.persist(team);
 
-            Member member2 = new Member();
-            member2.setUsername("B");
+            Team teamB = new Team();
+            teamB.setName("TeamB");
+            em.persist(teamB);
 
-            Member member3 = new Member();
-            member3.setUsername("C");
+            Member member = new Member();
+            member.setUsername("member1");
+            member.setTeam(team);
+            em.persist(member);
 
-            System.out.println("======================");
-            em.persist(member1); // SEQUENCE 전략, 최초 호출 전 -49, 50 | 호출 시 1, 51
-            em.persist(member2);
-            em.persist(member3);
-            System.out.println("======================");
+            Member findMember = em.find(Member.class, member.getId());
+
+            // 수정
+            member.setTeam(teamB);
 
             tx.commit();
         } catch (Exception e) {
