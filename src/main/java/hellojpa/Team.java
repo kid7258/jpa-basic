@@ -14,7 +14,8 @@ public class Team {
     private String name;
 
     // mappedBy = Member에 정의된 변수의 이름으로 지정
-    @OneToMany(mappedBy = "team")
+    @OneToMany
+    @JoinColumn(name = "team_id")
     private List<Member> members = new ArrayList<>();
 
     public Long getId() {
