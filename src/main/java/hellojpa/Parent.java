@@ -1,9 +1,8 @@
 package hellojpa;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Parent {
@@ -11,6 +10,14 @@ public class Parent {
     @GeneratedValue
     private Long id;
     private String username;
+
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Child> childList = new ArrayList<>();
+
+    public void addChild(Child child) {
+        childList.add(child);
+        child.setParent(this);
+    }
 
     public Long getId() {
         return id;
@@ -26,5 +33,9 @@ public class Parent {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public List<Child> getChildList() {
+        return childList;
     }
 }

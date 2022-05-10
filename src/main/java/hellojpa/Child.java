@@ -1,9 +1,6 @@
 package hellojpa;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Child {
@@ -11,6 +8,10 @@ public class Child {
     @GeneratedValue
     private Long id;
     private String username;
+
+    @ManyToOne
+    @JoinColumn(name = "parent_id")
+    private Parent parent;
 
     public Long getId() {
         return id;
@@ -26,5 +27,13 @@ public class Child {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Parent getParent() {
+        return parent;
+    }
+
+    public void setParent(Parent parent) {
+        this.parent = parent;
     }
 }
