@@ -7,6 +7,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class JpaMain {
     public static void main(String[] args) {
@@ -19,17 +20,29 @@ public class JpaMain {
 
         try {
 
-            Member member = new Member();
-            member.setUsername("hello");
+            Team team1 = new Team();
+            team1.setName("teamA");
+            em.persist(team1);
 
-            em.persist(member);
+            Team team2 = new Team();
+            team2.setName("teamB");
+            em.persist(team2);
+
+            Member member1 = new Member();
+            member1.setUsername("member1");
+            member1.setTeam(team1);
+            em.persist(member1);
+
+            Member member2 = new Member();
+            member2.setUsername("member2");
+            member2.setTeam(team2);
+            em.persist(member2);
 
             em.flush();
             em.clear();
 
-            Member findMember = em.getReference(Member.class, member.getId());
-            System.out.println("findMember = " + findMember.getClass().getName());
-            Hibernate.initialize(findMember);
+            List<Member> members = em.createQuery("select m from Member m", Member.class)
+                    .getResultList();
 
             tx.commit();
         } catch (Exception e) {
